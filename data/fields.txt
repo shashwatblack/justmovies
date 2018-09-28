@@ -1,0 +1,41 @@
+budget     : n amount
+company    : s company
+country    : s enum country
+director   : s person
+genre      : s enum genre
+gross      : n amount
+name       : s
+rating     : s enum mpaa_rating
+released   : s date mm/dd/yyyy
+runtime    : n minutes
+score      : f
+star       : s person
+votes      : n
+writer     : s person
+year       : s num
+
+Title      : s
+Year       : s num
+Rated      : s enum mpaa_rating
+Released   : s date dd mmm yyyy
+Runtime    : s time-length
+Genre      : s enum genre
+Director   : s person
+Writer     : s 
+Actors     : s comma-separated
+Plot       : s
+Language   : s enum language
+Country    : s enum country
+Awards     : s
+Poster     : s url
+Ratings    : a [source: s, value: s]
+Metascore  : s float
+imdbRating : s float
+imdbVotes  : s int redable
+imdbID     : s
+Type       : s enum media_type
+DVD        : s date dd mmm yyyy
+BoxOffice  : s
+Production : s company
+Website    : s url
+Response   : s bool
