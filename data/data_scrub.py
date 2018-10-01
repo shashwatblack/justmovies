@@ -94,9 +94,29 @@ def get_languages():
         for language in languages:
             file.write("""INSERT INTO language ("name") VALUES ('{}');\n""".format(language))
 
+def get_genres():
+    genres = set()
+    with open("movies.csv") as f1:
+        with open("movies_with_omdb.csv") as f2:
+            rows = zip(csv.reader(f1), csv.reader(f2))
+            headers = next(rows)
+            for row1, row2 in rows:
+                omdb_data = ast.literal_eval(row2[2])
+                if omdb_data["Response"] == "False":
+                    continue
+                genres.add(row1[4].strip())
+                for c in omdb_data["Genre"].split(','):
+                    genres.add(c.strip())
+    genres = sorted(genres)
+
+    with open("genres.sql", "w") as file:
+        for genre in genres:
+            file.write("""INSERT INTO genre ("name") VALUES ('{}');\n""".format(genre))
+
 if __name__=='__main__':
-    # test_omdb_data_integrity()
-    # test_movie_order_in_two_files()
-    # get_countries()
-    # get_mpaa_ratings()
+    test_omdb_data_integrity()
+    test_movie_order_in_two_files()
+    get_countries()
+    get_mpaa_ratings()
     get_languages()
+    get_genres()

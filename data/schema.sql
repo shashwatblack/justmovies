@@ -25,8 +25,8 @@ CREATE TABLE language(
     name VARCHAR(50) UNIQUE NOT NULL
 );
 
--- ROLENAME --------------------------------------------------------
-CREATE TABLE role_name(
+-- GENRE -----------------------------------------------------------
+CREATE TABLE genre(
     pk SERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL
 );
@@ -40,9 +40,12 @@ CREATE TABLE person(
 );
 
 -- ROLE ------------------------------------------------------------
-CREATE TABLE role(
+CREATE TYPE ROLE AS ENUM('Actor', 'Director', 'Producer', 'Writer');
+
+-- ROLE ------------------------------------------------------------
+CREATE TABLE personal_role(
     pk SERIAL PRIMARY KEY,
-    role_name INTEGER REFERENCES role_name(pk),
+    role ROLE,
     person INTEGER REFERENCES person(pk)
 );
 
@@ -63,6 +66,7 @@ CREATE TABLE movie(
 -- INVOLVEMENT -----------------------------------------------------
 CREATE TABLE involvement(
     pk SERIAL PRIMARY KEY,
+    role ROLE,
     person INTEGER REFERENCES person(pk),
     movie INTEGER REFERENCES movie(pk)
 );

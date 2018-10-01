@@ -1,5 +1,6 @@
 import psycopg2
-from credentials import DatabaseCredentials as dbc;
+from credentials import DatabaseCredentials as dbc
+from jumbo_load import jumbo_load
 
 # connection to the database
 # TODO: read params from separate file
@@ -21,6 +22,12 @@ cursor.execute(open("ratings.sql", "r").read())
 
 print('inserting languages..')
 cursor.execute(open("languages.sql", "r").read())
+
+print('inserting genres..')
+cursor.execute(open("genres.sql", "r").read())
+
+print('inserting movies, people and roles...')
+jumbo_load(cursor)
 
 # make the changes to the database persistent
 connection.commit()
