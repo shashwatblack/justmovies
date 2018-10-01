@@ -15,6 +15,10 @@ cursor.execute(open("schema.sql", "r").read())
 # NOW WE'LL ADD THE DATA
 print('inserting countries..')
 cursor.execute(open("countries.sql", "r").read())
+
+print('inserting ratings..')
+cursor.execute(open("ratings.sql", "r").read())
+
 # row = cursor.fetchone()
 # print(row)
 
