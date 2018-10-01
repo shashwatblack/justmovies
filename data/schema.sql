@@ -6,7 +6,13 @@ BEGIN
         EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(record.tablename) || ' CASCADE';
     END LOOP;
 END $$;
-
+-- DROP TYPES
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_type WHERE typname = 'role') THEN
+        DROP TYPE role;
+    END IF;
+END$$;
 -- COUNTRY ---------------------------------------------------------
 CREATE TABLE country(
     pk SERIAL PRIMARY KEY,
@@ -35,8 +41,7 @@ CREATE TABLE genre(
 CREATE TABLE person(
     pk SERIAL PRIMARY KEY,
     name VARCHAR(200) NOT NULL,
-    dob DATE,
-    awards TEXT
+    dob DATE
 );
 
 -- ROLE ------------------------------------------------------------
@@ -52,15 +57,16 @@ CREATE TABLE personal_role(
 -- MOVIE -----------------------------------------------------------
 CREATE TABLE movie(
     pk SERIAL PRIMARY KEY,
-	title VARCHAR(500) NOT NULL,
-	year SMALLINT,
-	plot TEXT,
-	imdbRating VARCHAR(10),
-	imdbID VARCHAR(50),
-	poster VARCHAR(1000),
-	country INTEGER REFERENCES country(pk),
-	rating INTEGER REFERENCES rating(pk),
-	language INTEGER REFERENCES language(pk)
+    title VARCHAR(500) NOT NULL,
+    year SMALLINT,
+    plot TEXT,
+    awards TEXT,
+    imdbRating VARCHAR(10),
+    imdbID VARCHAR(50),
+    poster VARCHAR(1000),
+    country INTEGER REFERENCES country(pk),
+    rating INTEGER REFERENCES rating(pk),
+    language INTEGER REFERENCES language(pk)
 );
 
 -- INVOLVEMENT -----------------------------------------------------

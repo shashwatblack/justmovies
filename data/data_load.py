@@ -3,8 +3,9 @@ from credentials import DatabaseCredentials as dbc
 from jumbo_load import jumbo_load
 
 # connection to the database
-# TODO: read params from separate file
+# TODO: move these into database utils
 connection = psycopg2.connect("dbname='{0}' user='{1}' host='{2}' password='{3}'".format(dbc.dbname, dbc.user, dbc.host, dbc.password))
+connection.set_client_encoding('UNICODE')
 
 # cursor to perform database operations
 cursor = connection.cursor()
