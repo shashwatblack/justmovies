@@ -1,10 +1,3 @@
-DROP TABLE IF EXISTS country;
-
-CREATE TABLE country(
-    pk SERIAL PRIMARY KEY,
-    name CHAR(50) UNIQUE NOT NULL
-);
-
 INSERT INTO country ("name") VALUES ('Albania');
 INSERT INTO country ("name") VALUES ('Angola');
 INSERT INTO country ("name") VALUES ('Argentina');
@@ -99,5 +92,3 @@ INSERT INTO country ("name") VALUES ('Vietnam');
 INSERT INTO country ("name") VALUES ('West Germany');
 INSERT INTO country ("name") VALUES ('Yugoslavia');
 INSERT INTO country ("name") VALUES ('Zimbabwe');
-
-SELECT * FROM country;
