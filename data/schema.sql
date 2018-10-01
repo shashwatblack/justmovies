@@ -41,6 +41,7 @@ CREATE TABLE person(
 
 -- ROLE ------------------------------------------------------------
 CREATE TABLE role(
+    pk SERIAL PRIMARY KEY,
     role_name INTEGER REFERENCES role_name(pk),
     person INTEGER REFERENCES person(pk)
 );
@@ -61,8 +62,17 @@ CREATE TABLE movie(
 
 -- INVOLVEMENT -----------------------------------------------------
 CREATE TABLE involvement(
+    pk SERIAL PRIMARY KEY,
     person INTEGER REFERENCES person(pk),
     movie INTEGER REFERENCES movie(pk)
 );
 
 -- REVIEW ----------------------------------------------------------
+CREATE TABLE review(
+    pk SERIAL PRIMARY KEY,
+    -- user INTEGER REFERENCES user(pk), -- we don't have users yet
+    movie INTEGER REFERENCES movie(pk),
+    text TEXT,
+    rating SMALLINT,
+    constraint rating_range_check check(rating >= 1 and rating <= 10)
+);
