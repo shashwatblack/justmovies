@@ -46,8 +46,10 @@ def get_countries():
                 for c in omdb_data["Country"].split(','):
                     countries.add(c.strip())
     countries = sorted(countries)
-    print(countries)
-    return countries
+
+    with open("countries.sql", "w") as file:
+        for country in countries:
+            file.write("""INSERT INTO country ("name") VALUES ('{}');\n""".format(country))
 
 def get_mpaa_ratings():
     mpaa_ratings = set()
@@ -63,11 +65,38 @@ def get_mpaa_ratings():
                 for c in omdb_data["Rated"].split(','):
                     mpaa_ratings.add(c.strip())
     mpaa_ratings = sorted(mpaa_ratings)
-    print(mpaa_ratings)
-    return mpaa_ratings
+
+    unrated_equivalents = ["N/A", "NOT RATED", "Not specified"]
+    for x in unrated_equivalents:
+        if x in mpaa_ratings:
+            mpaa_ratings.remove(x)
+
+    with open("ratings.sql", "w") as file:
+        for mpaa_rating in mpaa_ratings:
+            file.write("""INSERT INTO rating ("name") VALUES ('{}');\n""".format(mpaa_rating))
+        file.write("\n-- {} are all replaced with UNRATED\n".format(unrated_equivalents))
+
+def get_languages():
+    languages = set()
+    with open("movies.csv") as f1:
+        with open("movies_with_omdb.csv") as f2:
+            rows = zip(csv.reader(f1), csv.reader(f2))
+            headers = next(rows)
+            for row1, row2 in rows:
+                omdb_data = ast.literal_eval(row2[2])
+                if omdb_data["Response"] == "False":
+                    continue
+                for c in omdb_data["Language"].split(','):
+                    languages.add(c.strip())
+    languages = sorted(languages)
+
+    with open("languages.sql", "w") as file:
+        for language in languages:
+            file.write("""INSERT INTO language ("name") VALUES ('{}');\n""".format(language))
 
 if __name__=='__main__':
     # test_omdb_data_integrity()
     # test_movie_order_in_two_files()
     # get_countries()
-    get_mpaa_ratings()
+    # get_mpaa_ratings()
+    get_languages()

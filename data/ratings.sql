@@ -10,4 +10,4 @@ INSERT INTO rating ("name") VALUES ('TV-MA');
 INSERT INTO rating ("name") VALUES ('TV-PG');
 INSERT INTO rating ("name") VALUES ('UNRATED');
 
--- N/A, NOT RATED, Not specified are all replaced with UNRATED 
+-- ['N/A', 'NOT RATED', 'Not specified'] are all replaced with UNRATED

@@ -19,8 +19,8 @@ cursor.execute(open("countries.sql", "r").read())
 print('inserting ratings..')
 cursor.execute(open("ratings.sql", "r").read())
 
-# row = cursor.fetchone()
-# print(row)
+print('inserting languages..')
+cursor.execute(open("languages.sql", "r").read())
 
 # make the changes to the database persistent
 connection.commit()
