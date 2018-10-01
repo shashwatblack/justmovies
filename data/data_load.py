@@ -9,9 +9,11 @@ connection = psycopg2.connect("dbname='{0}' user='{1}' host='{2}' password='{3}'
 cursor = connection.cursor()
 
 # LET'S FIRST CREATE THE SCHEMA
+print('creating schemas..')
 cursor.execute(open("schema.sql", "r").read())
 
 # NOW WE'LL ADD THE DATA
+print('inserting countries..')
 cursor.execute(open("countries.sql", "r").read())
 # row = cursor.fetchone()
 # print(row)
