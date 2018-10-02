@@ -7,8 +7,8 @@ def jumbo_load(cursor):
     c = 0
     mx_c = 100
     db_utils = DatabaseUtils(cursor)
-    with open("movies.csv") as f1:
-        with open("movies_with_omdb.csv") as f2:
+    with open("movies.csv", errors='ignore') as f1:
+        with open("movies_with_omdb.csv", errors='ignore') as f2:
             rows = zip(csv.reader(f1), csv.reader(f2))
             headers = next(rows)
             for basic, omdb_row in rows:
@@ -43,8 +43,29 @@ def jumbo_load(cursor):
                 if not writer_role:
                     db_utils.insert_role(db_writer, "Writer")
 
-                # if no movie
-                    # insert movie
+                title = basic[6]
+                year = basic[14]
+                movie = db_utils.get_movie(title, year)
+                if not movie:
+                    movie = db_utils.insert_then_get_movie(title, year, {
+                        "company": basic[1],
+                        "budget": basic[0],
+                        "gross": basic[5],
+                        "released": basic[8],
+                        "runtime": basic[9],
+                        "plot": omdb["Plot"],
+                        "awards": omdb["Awards"],
+                        "poster": omdb["Poster"],
+                        "website": omdb["Website"],
+                        "imdb_rating": omdb["imdbRating"],
+                        "imdb_id": omdb["imdbID"],
+
+                        # genre
+                        # mpaa_rating
+                        # country
+                        # language
+                    })
+
                 # if no involvement
                     # insert involvement
 

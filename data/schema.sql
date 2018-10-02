@@ -60,13 +60,20 @@ CREATE TABLE movie(
     pk SERIAL PRIMARY KEY,
     title VARCHAR(500) NOT NULL,
     year SMALLINT,
+    company VARCHAR(1000),
+    budget VARCHAR(50),
+    gross VARCHAR(50),
+    released VARCHAR(50),
+    runtime VARCHAR(50),
     plot TEXT,
     awards TEXT,
-    imdbRating VARCHAR(10),
-    imdbID VARCHAR(50),
     poster VARCHAR(1000),
+    website VARCHAR(1000),
+    imdb_rating VARCHAR(10),
+    imdb_id VARCHAR(50),
     country INTEGER REFERENCES country(pk),
     rating INTEGER REFERENCES rating(pk),
+    genre INTEGER REFERENCES genre(pk),
     language INTEGER REFERENCES language(pk)
 );
 
