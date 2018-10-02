@@ -26,14 +26,23 @@ def jumbo_load(cursor):
                 db_writer = db_utils.get_person(writer)
 
                 if not db_director:
-                    db_utils.insert_person(director)
+                    db_director = db_utils.insert_then_get_person(director)
                 if not db_actor:
-                    db_utils.insert_person(actor)
+                    db_actor = db_utils.insert_then_get_person(actor)
                 if not db_writer:
-                    db_utils.insert_person(writer)
+                    db_writer = db_utils.insert_then_get_person(writer)
 
-                # if no actor.personal_role
-                    # insert personal_role
+                director_role = db_utils.get_personal_role(db_director, "Director")
+                actor_role = db_utils.get_personal_role(db_actor, "Actor")
+                writer_role = db_utils.get_personal_role(db_writer, "Writer")
+
+                if not director_role:
+                    db_utils.insert_role(db_director, "Director")
+                if not actor_role:
+                    db_utils.insert_role(db_actor, "Actor")
+                if not writer_role:
+                    db_utils.insert_role(db_writer, "Writer")
+
                 # if no movie
                     # insert movie
                 # if no involvement
