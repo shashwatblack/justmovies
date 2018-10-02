@@ -13,6 +13,7 @@ BEGIN
         DROP TYPE role;
     END IF;
 END$$;
+
 -- COUNTRY ---------------------------------------------------------
 CREATE TABLE country(
     pk SERIAL PRIMARY KEY,
