@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Just Movies</title>
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="keywords" content="Just Movies, Movies, Actors, Directors, Ratings, Analytics">
+	  <meta name="description" content="Just Movies is just about movies. Our analytics may interest you.">
+    
+    <link rel="shortcut icon" type="image/png" href="{% static "favicon.png" %}"/>
+    
+    <!-- bootflat stuffs -->
+    <link rel="stylesheet" href="{% static "bootflat/css/site.min.css" %}">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static "bootflat/js/site.min.js" %}"></script>
+
+    <!-- just movies stuffs -->
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+  </head>
+  <body class="home">
+    <div class="docs-header header--noBackground">
+      <!--nav-->
+      <nav class="navbar navbar-default navbar-custom" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html"><img src="img/logo.png" height="40"></a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a class="nav-link" href="getting-started.html">Getting Started</a></li>
+              <li><a class="nav-link" href="documentation.html">Documentation</a></li>
+              <li><a class="nav-link" href="free-psd.html">Free PSD</a></li>
+              <li><a class="nav-link" href="color-picker.html">Color Picker</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!--index-->
+      <div class="index">
+        <h1>Simply, Just Movies</h1>
+      </div>
+      <!-- Movies ================================================== -->
+      <div class="example">
+        <h2 class="example-title">Movies</h2>
+        <div class="row">
+          {% for movie in movies %}
+            <div class="col-sm-6 col-md-3">
+              <div class="thumbnail">
+                <img class="img-rounded" src="{{movie.poster}}" >
+                <div class="caption text-center">
+                  <h3>{{movie.name}}</h3>
+                  <p>{{movie.plot}}</p>
+                  <p>
+                    <a href="https://www.imdb.com/title/{{movie.imdb_id}}" 
+                       class="btn btn-default" role="button">IMDB</a>
+                    <a href="#" class="btn btn-warning" role="button">Edit</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <!--footer-->
+      <div class="site-footer">
+        <div class="container">
+          <hr class="dashed" />
+          <div class="copyright clearfix">
+          <p><b>Bootflat</b>&nbsp;&nbsp;&nbsp;&nbsp;<a href="getting-started.html">Getting Started</a>&nbsp;&bull;&nbsp;<a href="documentation.html">Documentation</a>&nbsp;&bull;&nbsp;<a href="free-psd.html">Free PSD</a>&nbsp;&bull;&nbsp;<a href="color-picker.html">Color Picker</a></p>
+            <p>&copy; 2014 <a href="http://www.flathemes.com" target="_blank">FLATHEMES</a>, Inc. All rights reserved. &nbsp;&nbsp;Code licensed under <a href="http://opensource.org/licenses/mit-license.html" target="_blank" rel="external nofollow">MIT License</a>, documentation under <a href="http://creativecommons.org/licenses/by/3.0/" rel="external nofollow">CC BY 3.0</a>.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
