@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 from justmovies.views import HomeView
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
-    path('/people', HomeView.as_view(), name='people'),
-    path('/data', HomeView.as_view(), name='data'),
+    path('movies', HomeView.as_view(), name='movies'),
+    path('people', HomeView.as_view(), name='people'),
+    path('data', HomeView.as_view(), name='data'),
     path('admin/', admin.site.urls),
+    url(r'^.*$', RedirectView.as_view(url='movies', permanent=False), name='home')
 ]
