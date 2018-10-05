@@ -1,7 +1,61 @@
 .home {
-	background: none;
+    background: none;
 }
 
 .index {
-	min-height: auto;
+    min-height: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.index h1 {
+    margin: 0;
+    text-align: left;
+    text-align: center;
+}
+
+.movies-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.movies-container .movie {
+    width: 200px;
+}
+
+.movies-container .movie .thumbnail {
+    padding: 5px;
+    border-radius: 0;
+    height: calc(100% - 20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.movies-container .movie .thumbnail .caption > h3 {
+    line-height: 2rem;
+    margin: 0;
+}
+
+.movies-container .movie .thumbnail .poster {
+    border: 1px solid #aaa;
+}
+
+.movies-container .movie .thumbnail .btn {
+    width: 85px;
+    margin-bottom: 5px;
+}
+
+.movies-container .movie .thumbnail .btn:first-child {
+    margin-right: 3px;
+}
+
+.movies-container .movie .thumbnail .btn:last-child {
+    margin-left: 3px;
+}
+
+.flat {
+    border-radius: 0 !important;
 }

@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{% static "css/styles.css" %}">
   </head>
   <body class="home">
-    <div class="docs-header header--noBackground">
+    <div class="docs-header">
       <!--nav-->
       <nav class="navbar navbar-default navbar-custom" role="navigation">
         <div class="container">
@@ -45,24 +45,25 @@
       </nav>
       <!--index-->
       <div class="index">
-        <h1>Simply, Just Movies</h1>
+        <div class="container">
+          <h1>Just Movies, Simply.</h1>
+        </div>
       </div>
       <!-- Movies ================================================== -->
-      <div class="example">
-        <h2 class="example-title">Movies</h2>
-        <div class="row">
+      <div class="container example">
+        <h2 class="filters"><!-- Filters go here --></h2>
+        <div class="movies-container">
           {% for movie in movies %}
-            <div class="col-sm-6 col-md-3">
+            <div class="movie">
               <div class="thumbnail">
-                <img class="img-rounded" src="{{movie.poster}}" >
+                <img class="poster" src="{{movie.poster}}" >
                 <div class="caption text-center">
-                  <h3>{{movie.name}}</h3>
-                  <p>{{movie.plot}}</p>
-                  <p>
-                    <a href="https://www.imdb.com/title/{{movie.imdb_id}}" 
-                       class="btn btn-default" role="button">IMDB</a>
-                    <a href="#" class="btn btn-warning" role="button">Edit</a>
-                  </p>
+                  <h3>{{movie.title}}</h3>
+                </div>
+                <div class="text-center">
+                  <a href="https://www.imdb.com/title/{{movie.imdb_id}}" 
+                     class="btn btn-default flat" role="button">IMDB</a>
+                  <a href="#" class="btn btn-warning flat" role="button">Edit</a>
                 </div>
               </div>
             </div>
