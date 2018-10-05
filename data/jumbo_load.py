@@ -1,7 +1,10 @@
 import csv
 import ast
 
-from utils import DatabaseUtils, MockCursor
+import os.path, sys
+sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
+
+from utils.db_utils import DatabaseUtils, MockCursor
 
 def jumbo_load(cursor):
     c = 0

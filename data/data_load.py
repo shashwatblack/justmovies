@@ -1,4 +1,7 @@
-from utils import DatabaseUtils
+import os.path, sys
+sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
+
+from utils.db_utils import DatabaseUtils
 from jumbo_load import jumbo_load
 
 # connection to the database

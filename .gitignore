@@ -101,5 +101,5 @@ ENV/
 .mypy_cache/
 
 # my additions
-/data/credentials.py
+/utils/credentials.py
 *.scratch
