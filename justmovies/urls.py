@@ -18,6 +18,8 @@ from django.urls import path
 from justmovies.views import HomeView
 
 urlpatterns = [
-    path('', HomeView.as_view()),
+    path('', HomeView.as_view(), name='home'),
+    path('/people', HomeView.as_view(), name='people'),
+    path('/data', HomeView.as_view(), name='data'),
     path('admin/', admin.site.urls),
 ]
