@@ -1,14 +1,10 @@
-import psycopg2
-from credentials import DatabaseCredentials as dbc
+from utils import DatabaseUtils
 from jumbo_load import jumbo_load
 
 # connection to the database
-# TODO: move these into database utils
-connection = psycopg2.connect("dbname='{0}' user='{1}' host='{2}' password='{3}'".format(dbc.dbname, dbc.user, dbc.host, dbc.password))
-connection.set_client_encoding('UNICODE')
-
-# cursor to perform database operations
-cursor = connection.cursor()
+db_utils = DatabaseUtils()
+connection = db_utils.get_connection()
+cursor = db_utils.get_cursor()
 
 # LET'S FIRST CREATE THE SCHEMA
 print('creating schemas..')
@@ -30,9 +26,5 @@ cursor.execute(open("genres.sql", "r").read())
 print('inserting movies, people and roles...')
 jumbo_load(cursor)
 
-# make the changes to the database persistent
-connection.commit()
-
-# close communication with the database
-cursor.close()
-connection.close()
+db_utils.commit()
+print("done!")

@@ -1,10 +1,33 @@
+import psycopg2
 from psycopg2 import sql
+from credentials import DatabaseCredentials as dbc
 
 class DatabaseUtils():
     cursor = None
+    connection = None
 
-    def __init__(self, cursor):
-        self.cursor = cursor
+    def __init__(self):
+        self.connection = psycopg2.connect("dbname='{0}' user='{1}' host='{2}' password='{3}'".format(dbc.dbname, dbc.user, dbc.host, dbc.password))
+        self.connection.set_client_encoding('UNICODE')
+
+        # cursor to perform database operations
+        self.cursor = self.connection.cursor()
+
+    def __del__(self):
+        print(str(self), 'died')
+        # close communication with the database
+        self.cursor.close()
+        self.connection.close()
+
+    def commit(self):
+        # make the changes to the database persistent
+        self.connection.commit()
+
+    def get_cursor(self):
+        return self.cursor
+
+    def get_connection(self):
+        return self.connection
 
     def get_person(self, name):
         query = """SELECT * FROM person WHERE name='{}';""".format(name)
