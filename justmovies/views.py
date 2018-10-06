@@ -6,9 +6,10 @@ from utils.db_utils import DatabaseUtils
 class HomeView(View):
     def get(self, request):
         db = DatabaseUtils()
-        query = """SELECT * FROM movie LIMIT 10;"""
-        db.get_cursor().execute(query);
-        all_movies = db.get_cursor().fetchall()
+        movies = db.get_movies({
+            "title": "the",
+            "company": "pictures"
+        })
         context = {
             "movies": [{
                 "pk": m[0],
@@ -29,7 +30,7 @@ class HomeView(View):
                 "rating": m[15],
                 "genre": m[16],
                 "language": m[17]
-            } for m in all_movies]
+            } for m in movies]
         }
         print(context["movies"][0])
         return render(request, 'justmovies/index.html', context)

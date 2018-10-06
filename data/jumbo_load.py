@@ -6,10 +6,10 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.par
 
 from utils.db_utils import DatabaseUtils, MockCursor
 
-def jumbo_load(cursor):
+def jumbo_load():
     c = 0
-    mx_c = 100
-    db_utils = DatabaseUtils(cursor)
+    mx_c = 500
+    db_utils = DatabaseUtils()
     with open("movies.csv", errors='ignore') as f1:
         with open("movies_with_omdb.csv", errors='ignore') as f2:
             rows = zip(csv.reader(f1), csv.reader(f2))
@@ -73,6 +73,7 @@ def jumbo_load(cursor):
                     # insert involvement
 
                 c += 1
+                print("Done " + c)
                 if c >= mx_c:
                     break
 

@@ -18,7 +18,6 @@ class DatabaseUtils():
         self.cursor = self.connection.cursor()
 
     def __del__(self):
-        print(str(self), 'died')
         # close communication with the database
         self.cursor.close()
         self.connection.close()
@@ -37,6 +36,12 @@ class DatabaseUtils():
         query = """SELECT * FROM person WHERE name='{}';""".format(name)
         self.cursor.execute(query)
         return self.cursor.fetchone()
+
+    def print_query(self, query):
+        # just for debugging
+        print("----------------------------------------------")
+        print(self.cursor.mogrify(query))
+        print("----------------------------------------------")
 
     def insert_person(self, name, dob=None):
         if dob:
@@ -66,6 +71,22 @@ class DatabaseUtils():
         query = """SELECT * FROM movie WHERE title=%s and year=%s;"""
         self.cursor.execute(query, (title, year))
         return self.cursor.fetchone()
+
+    def get_movies(self, filters, page_number=1, page_size=20):
+        limit = page_size
+        offset = page_size * (page_number - 1)
+
+        conditions = list()
+        if "title" in filters:
+            conditions.append(sql.SQL("title ilike {0} ").format(sql.Literal('%' + filters["title"] + '%')))
+        if "company" in filters:
+            conditions.append(sql.SQL("company ilike {0} ").format(sql.Literal('%' + filters["company"] + '%')))
+
+        query = sql.SQL("SELECT * FROM movie WHERE {0} LIMIT {1} OFFSET {2};").format(
+            sql.SQL(" and ").join(conditions), sql.Literal(limit), sql.Literal(offset)
+        )
+        self.cursor.execute(query)
+        return self.cursor.fetchall()
 
     def insert_movie(self, title, year, params={}):
         params["title"] = title
