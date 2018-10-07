@@ -8,8 +8,8 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.par
 
 
 def jumbo_load():
-    c = 0
-    mx_c = 50000
+    count = 0
+    max_count = 100
     db_utils = DatabaseUtils()
     with open("movies.csv", errors='ignore') as f1:
         with open("movies_with_omdb.csv", errors='ignore') as f2:
@@ -21,6 +21,7 @@ def jumbo_load():
                     continue
                 # we have a clean 'row'
 
+                # PEOPLE
                 director = basic[3]
                 actor = basic[11]
                 writer = basic[13]
@@ -36,6 +37,7 @@ def jumbo_load():
                 if not db_writer:
                     db_writer = db_utils.insert_then_get_person(writer)
 
+                # ROLES
                 director_role = db_utils.get_personal_role(db_director, "Director")
                 actor_role = db_utils.get_personal_role(db_actor, "Actor")
                 writer_role = db_utils.get_personal_role(db_writer, "Writer")
@@ -47,6 +49,7 @@ def jumbo_load():
                 if not writer_role:
                     db_utils.insert_role(db_writer, "Writer")
 
+                # MOVIE
                 title = basic[6]
                 year = basic[14]
                 movie = db_utils.get_movie(title, year)
@@ -70,14 +73,25 @@ def jumbo_load():
                         # language
                     })
 
-                # if no involvement
-                # insert involvement
+                # INVOLVEMENT
+                director_involvement = db_utils.get_involvement(db_director, movie, "Director")
+                actor_involvement = db_utils.get_involvement(db_actor, movie, "Actor")
+                writer_involvement = db_utils.get_involvement(db_writer, movie, "Writer")
+
+                if not director_involvement:
+                    db_utils.insert_involvement(db_director, movie, "Director")
+
+                if not actor_involvement:
+                    db_utils.insert_involvement(db_actor, movie, "Actor")
+
+                if not writer_involvement:
+                    db_utils.insert_involvement(db_writer, movie, "Writer")
 
                 db_utils.commit()
 
-                c += 1
-                print("Done " + str(c))
-                if c >= mx_c:
+                count += 1
+                print("DONE " + str(count))
+                if count >= max_count:
                     break
 
 

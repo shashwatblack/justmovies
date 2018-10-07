@@ -1,10 +1,11 @@
 import psycopg2
 from psycopg2 import sql
+import sys
+import os.path
+from utils.credentials import DatabaseCredentials as dbc
 
-import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 
-from utils.credentials import DatabaseCredentials as dbc
 
 class DatabaseUtils():
     cursor = None
@@ -125,8 +126,29 @@ class DatabaseUtils():
         self.insert_movie(title, year, params)
         return self.get_movie(title, year)
 
+    def get_involvement(self, person_pk, movie_pk, role):
+        if isinstance(person_pk, tuple):
+            person_pk = person_pk[0]
+        if isinstance(movie_pk, tuple):
+            movie_pk = movie_pk[0]
+        query = sql.SQL("SELECT * FROM involvement WHERE person={} and movie={} and role={};").format(
+            sql.Literal(person_pk), sql.Literal(movie_pk), sql.Literal(role)
+        )
+        self.cursor.execute(query)
+        return self.cursor.fetchone()
 
-class MockCursor():
+    def insert_involvement(self, person_pk, movie_pk, role):
+        if isinstance(person_pk, tuple):
+            person_pk = person_pk[0]
+        if isinstance(movie_pk, tuple):
+            movie_pk = movie_pk[0]
+        query = sql.SQL("""INSERT INTO involvement ("person", "movie", "role") VALUES ({}, {}, {});""").format(
+            sql.Literal(person_pk), sql.Literal(movie_pk), sql.Literal(role)
+        )
+        self.cursor.execute(query)
+
+
+class MockCursor:
     def execute(self, query):
         print("EXECUTING", query)
 

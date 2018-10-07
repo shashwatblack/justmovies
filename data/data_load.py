@@ -34,4 +34,4 @@ db_utils.commit()
 print('inserting movies, people and roles...')
 jumbo_load()
 
-print("done!")
+print("ALL DONE!")
