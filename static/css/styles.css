@@ -2,6 +2,10 @@
     background: none;
 }
 
+.docs-header {
+    height: 100vh;
+}
+
 .index {
     min-height: auto;
     margin-top: 40px;

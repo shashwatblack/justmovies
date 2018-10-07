@@ -5,7 +5,7 @@ from utils.db_utils import DatabaseUtils
 from utils.enums import Enums
 
 
-class HomeView(View):
+class MoviesView(View):
     def get(self, request):
         db = DatabaseUtils()
 
@@ -67,3 +67,32 @@ class HomeView(View):
             "ratings": Enums.imdb_ratings
         }
         return render(request, 'justmovies/index.html', context)
+
+
+class PeopleView(View):
+    def get(self, request):
+        db = DatabaseUtils()
+        name = request.GET.get('name', '')
+
+        if not name:
+            return render(request, 'justmovies/people.html', {"success": False})
+
+        person = db.get_people(name)
+
+        if not person:
+            return render(request, 'justmovies/people.html', {"success": False, "name": name})
+
+        person = person[0]
+
+        roles = db.get_personal_roles(person)
+
+        involvements = db.get_involvements(person)
+
+        context = {
+            "success": True,
+            "name": person[1],
+            "dob": person[2],
+            "roles": roles,
+            "involvements": involvements,
+        }
+        return render(request, 'justmovies/people.html', context)

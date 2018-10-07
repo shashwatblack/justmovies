@@ -73,6 +73,13 @@ class DatabaseUtils():
         self.cursor.execute(query)
         return self.cursor.fetchone()
 
+    def get_people(self, name):
+        query = sql.SQL("SELECT * FROM person WHERE name ilike {0};").format(
+            sql.Literal("%" + name + "%")
+        )
+        self.cursor.execute(query)
+        return self.cursor.fetchall()
+
     def insert_person(self, name, dob=None):
         if dob:
             query = sql.SQL("""INSERT INTO person ("name", "dob") VALUES ({}, {});""").format(
@@ -95,6 +102,13 @@ class DatabaseUtils():
         query = """SELECT * FROM personal_role WHERE person='{}' and role='{}';""".format(person_pk, role)
         self.cursor.execute(query)
         return self.cursor.fetchone()
+
+    def get_personal_roles(self, person_pk):
+        if isinstance(person_pk, tuple):
+            person_pk = person_pk[0]
+        query = """SELECT * FROM personal_role WHERE person='{}';""".format(person_pk)
+        self.cursor.execute(query)
+        return self.cursor.fetchall()
 
     def insert_role(self, person_pk, role):
         if isinstance(person_pk, tuple):
@@ -182,6 +196,17 @@ class DatabaseUtils():
             sql.Literal(person_pk), sql.Literal(movie_pk), sql.Literal(role)
         )
         self.cursor.execute(query)
+
+    def get_involvements(self, person_pk):
+        if isinstance(person_pk, tuple):
+            person_pk = person_pk[0]
+        query = sql.SQL("""SELECT * FROM movie NATURAL JOIN involvement WHERE involvement.person={};""").format(
+            sql.Literal(person_pk)
+        )
+        self.cursor.execute(query)
+
+        return self.cursor.fetchall()
+
 
     # GENRES
     def get_genre(self, genre):
