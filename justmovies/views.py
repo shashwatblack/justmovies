@@ -9,7 +9,30 @@ class HomeView(View):
         movies = db.get_movies({
             "title": "the",
             "company": "pictures"
-        })
+        }, page_number=int(request.GET.get('page', '1')))
+
+        pagination = {
+            "page_number": movies["pagination"]["page_number"],
+            "page_size": movies["pagination"]["page_size"],
+            "total_hits": movies["pagination"]["total_hits"],
+            "total_pages": movies["pagination"]["total_pages"],
+            "pages": None
+        }
+
+        pages = [
+            i for i in range(1, movies["pagination"]["total_pages"] + 1)
+                    if abs(movies["pagination"]["page_number"] - i) <= 2
+        ]
+
+        if len(pages):
+            if pages[0] != 1:
+                pages = ['...'] + pages
+
+            if pages[-1] != movies["pagination"]["total_pages"]:
+                pages = pages + ['...']
+
+        pagination["pages"] = pages
+
         context = {
             "movies": [{
                 "pk": m[0],
@@ -30,7 +53,7 @@ class HomeView(View):
                 "rating": m[15],
                 "genre": m[16],
                 "language": m[17]
-            } for m in movies]
+            } for m in movies["values"]],
+            "pagination": pagination
         }
-        print(context["movies"][0])
         return render(request, 'justmovies/index.html', context)

@@ -82,11 +82,28 @@ class DatabaseUtils():
         if "company" in filters:
             conditions.append(sql.SQL("company ilike {0} ").format(sql.Literal('%' + filters["company"] + '%')))
 
+        # let's first get the counts
+        query = sql.SQL("SELECT count(*) FROM movie WHERE {0};").format(
+            sql.SQL(" and ").join(conditions)
+        )
+        self.cursor.execute(query)
+        total_hits = self.cursor.fetchone()[0]
+
+        # now let's get the actual movies in the limit
         query = sql.SQL("SELECT * FROM movie WHERE {0} LIMIT {1} OFFSET {2};").format(
             sql.SQL(" and ").join(conditions), sql.Literal(limit), sql.Literal(offset)
         )
         self.cursor.execute(query)
-        return self.cursor.fetchall()
+
+        return {
+            "values": self.cursor.fetchall(),
+            "pagination": {
+                "page_number": page_number,
+                "page_size": page_size,
+                "total_hits": total_hits,
+                "total_pages": total_hits // page_size + 1
+            }
+        }
 
     def insert_movie(self, title, year, params={}):
         params["title"] = title

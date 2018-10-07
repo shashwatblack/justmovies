@@ -69,20 +69,43 @@
               </div>
             </div>
           {% endfor %}
+          {% if not movies|length %}
+            <h4 class="center">
+              No movies found matching applied filters.
+            </h4>
+          {% endif %}
         </div>
         <div class="row example-pagination">
           <hr class="dashed"/>
-          <div class="text-right">
-            <ul class="pagination">
-              <li class="active"><a class="flat" href="#">PREV</a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a  href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li class="disabled"><a href="#">5</a></li>
-              <li class="active"><a class="flat" href="#">NEXT</a></li>
-            </ul>
-          </div>
+          {% if pagination.pages|length %}
+            <div class="text-right">
+              <ul class="pagination">
+                <li class=" 
+                {% if pagination.page_number == 1 %}
+                  unresponsive inactive
+                {% endif %}">
+                  <a class="flat" href="{% url 'movies' %}?page={{pagination.page_number|add:"-1"}}">PREV</a>
+                </li>
+                {% for page in pagination.pages %}
+                  <li class="
+                    {% if pagination.page_number == page %}
+                      active
+                    {% endif %}
+                    {% if page == '...' %}
+                      unresponsive inactive
+                    {% endif %}"">
+                    <a href="{% url 'movies' %}?page={{page}}">{{page}}</a>
+                  </li>
+                {% endfor %}
+                <li class="
+                {% if pagination.page_number == pagination.total_pages %}
+                  unresponsive inactive
+                {% endif %}">
+                  <a class="flat" href="{% url 'movies' %}?page={{pagination.page_number|add:"1"}}">NEXT</a>
+                </li>
+              </ul>
+            </div>
+          {% endif %}
         </div>
       </div>
       <!--footer-->

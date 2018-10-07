@@ -64,3 +64,11 @@
     background-color: #428bca;
     border-color: #428bca;
 }
+
+.pagination > .inactive > a{
+    color: #aaa;
+}
+
+.unresponsive {
+    pointer-events: none;
+}

@@ -24,5 +24,5 @@ urlpatterns = [
     path('people', HomeView.as_view(), name='people'),
     path('data', HomeView.as_view(), name='data'),
     path('admin/', admin.site.urls),
-    url(r'^.*$', RedirectView.as_view(url='movies', permanent=False), name='home')
+    url(r'^.*$', RedirectView.as_view(url='/movies', permanent=False), name='home')
 ]
