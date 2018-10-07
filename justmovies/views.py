@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from utils.db_utils import DatabaseUtils
 
+
 class HomeView(View):
     def get(self, request):
         db = DatabaseUtils()

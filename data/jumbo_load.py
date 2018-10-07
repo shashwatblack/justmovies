@@ -1,10 +1,11 @@
 import csv
 import ast
+import sys
+import os.path
+from utils.db_utils import DatabaseUtils, MockCursor
 
-import os.path, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 
-from utils.db_utils import DatabaseUtils, MockCursor
 
 def jumbo_load():
     c = 0
@@ -70,7 +71,7 @@ def jumbo_load():
                     })
 
                 # if no involvement
-                    # insert involvement
+                # insert involvement
 
                 db_utils.commit()
 
@@ -80,5 +81,5 @@ def jumbo_load():
                     break
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     jumbo_load(MockCursor())
