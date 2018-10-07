@@ -85,13 +85,24 @@ class PeopleView(View):
         person = person[0]
 
         roles = db.get_personal_roles(person)
+        roles = ', '.join([r[1] for r in roles])
 
         involvements = db.get_involvements(person)
+        involvements = [{
+            "movie_pk": i[0],
+            "title": i[1],
+            "year": i[2],
+            "awards": i[9],
+            "poster": i[10],
+            "role": i[18]
+        } for i in involvements]
 
         context = {
             "success": True,
             "name": person[1],
             "dob": person[2],
+            "image": person[3],
+            "intro": person[4],
             "roles": roles,
             "involvements": involvements,
         }

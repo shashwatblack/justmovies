@@ -42,7 +42,9 @@ CREATE TABLE genre(
 CREATE TABLE person(
     pk SERIAL PRIMARY KEY,
     name VARCHAR(200) NOT NULL,
-    dob DATE
+    dob DATE,
+    image VARCHAR(1000),
+    intro TEXT
 );
 
 -- ROLE ------------------------------------------------------------
