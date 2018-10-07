@@ -6,10 +6,13 @@ from utils.db_utils import DatabaseUtils
 class HomeView(View):
     def get(self, request):
         db = DatabaseUtils()
-        movies = db.get_movies({
-            "title": "the",
-            "company": "pictures"
-        }, page_number=int(request.GET.get('page', '1')))
+
+        filters = {
+            "title": request.GET.get('title', ''),
+            "company": request.GET.get('company', '')
+        }
+
+        movies = db.get_movies(filters, page_number=int(request.GET.get('page', '1')))
 
         pagination = {
             "page_number": movies["pagination"]["page_number"],
@@ -34,6 +37,7 @@ class HomeView(View):
         pagination["pages"] = pages
 
         context = {
+            "filters": filters,
             "movies": [{
                 "pk": m[0],
                 "title": m[1],
