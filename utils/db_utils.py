@@ -121,6 +121,8 @@ class DatabaseUtils():
             conditions.append(sql.SQL("year >= {0} ").format(sql.Literal(filters["year_gte"])))
         if "year_lte" in filters and len(filters["year_lte"]):
             conditions.append(sql.SQL("year <= {0} ").format(sql.Literal(filters["year_lte"])))
+        if "imdb_rating" in filters and len(filters["imdb_rating"]):
+            conditions.append(sql.SQL("imdb_rating >= {0} ").format(sql.Literal(filters["imdb_rating"])))
 
         # let's first get the counts
         query = sql.SQL("SELECT count(*) FROM movie WHERE {0};").format(

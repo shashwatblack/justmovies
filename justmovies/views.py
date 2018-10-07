@@ -2,6 +2,7 @@ from django.views import View
 from django.shortcuts import render
 
 from utils.db_utils import DatabaseUtils
+from utils.enums import Enums
 
 
 class HomeView(View):
@@ -12,7 +13,8 @@ class HomeView(View):
             "title": request.GET.get('title', ''),
             "company": request.GET.get('company', ''),
             "year_gte": request.GET.get('year_gte', ''),
-            "year_lte": request.GET.get('year_lte', '')
+            "year_lte": request.GET.get('year_lte', ''),
+            "imdb_rating": request.GET.get('imdb_rating', '')
         }
 
         movies = db.get_movies(filters, page_number=int(request.GET.get('page', '1')))
@@ -27,7 +29,7 @@ class HomeView(View):
 
         pages = [
             i for i in range(1, movies["pagination"]["total_pages"] + 1)
-                    if abs(movies["pagination"]["page_number"] - i) <= 2
+            if abs(movies["pagination"]["page_number"] - i) <= 2
         ]
 
         if len(pages):
@@ -61,6 +63,7 @@ class HomeView(View):
                 "genre": m[16],
                 "language": m[17]
             } for m in movies["values"]],
-            "pagination": pagination
+            "pagination": pagination,
+            "ratings": Enums.imdb_ratings
         }
         return render(request, 'justmovies/index.html', context)

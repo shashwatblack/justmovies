@@ -75,6 +75,18 @@
                                            placeholder="To" value="{{filters.year_lte}}">
                                 </div>
                             </div>
+                            <div class="col">
+                                <label>IMDB Rating</label>
+                                <select class="form-control" name="imdb_rating">
+                                    {% for rating in ratings %}
+                                        <option value="{{rating.value}}"
+                                                {% if rating.value == filters.imdb_rating %}selected{% endif %}>
+                                            {{ rating.display }}
+                                        </option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
                             <div class="col" style="margin-left: auto;">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="btn btn-primary">Search</button>
