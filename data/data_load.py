@@ -12,22 +12,26 @@ cursor = db_utils.get_cursor()
 # LET'S FIRST CREATE THE SCHEMA
 print('creating schemas..')
 cursor.execute(open("schema.sql", "r").read())
+db_utils.commit()
 
 # NOW WE'LL ADD THE DATA
 print('inserting countries..')
 cursor.execute(open("countries.sql", "r").read())
+db_utils.commit()
 
 print('inserting ratings..')
 cursor.execute(open("ratings.sql", "r").read())
+db_utils.commit()
 
 print('inserting languages..')
 cursor.execute(open("languages.sql", "r").read())
+db_utils.commit()
 
 print('inserting genres..')
 cursor.execute(open("genres.sql", "r").read())
+db_utils.commit()
 
 print('inserting movies, people and roles...')
 jumbo_load()
 
-db_utils.commit()
 print("done!")

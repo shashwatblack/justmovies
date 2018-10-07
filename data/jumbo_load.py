@@ -8,7 +8,7 @@ from utils.db_utils import DatabaseUtils, MockCursor
 
 def jumbo_load():
     c = 0
-    mx_c = 500
+    mx_c = 50000
     db_utils = DatabaseUtils()
     with open("movies.csv", errors='ignore') as f1:
         with open("movies_with_omdb.csv", errors='ignore') as f2:
@@ -72,8 +72,10 @@ def jumbo_load():
                 # if no involvement
                     # insert involvement
 
+                db_utils.commit()
+
                 c += 1
-                print("Done " + c)
+                print("Done " + str(c))
                 if c >= mx_c:
                     break
 

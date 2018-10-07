@@ -33,7 +33,9 @@ class DatabaseUtils():
         return self.connection
 
     def get_person(self, name):
-        query = """SELECT * FROM person WHERE name='{}';""".format(name)
+        query = sql.SQL("SELECT * FROM person WHERE name={0};").format(
+            sql.Literal(name)
+        )
         self.cursor.execute(query)
         return self.cursor.fetchone()
 
@@ -45,9 +47,13 @@ class DatabaseUtils():
 
     def insert_person(self, name, dob=None):
         if dob:
-            query = """INSERT INTO person ("name", "dob") VALUES ('{}', '{}');""".format(name, dob)
+            query = sql.SQL("""INSERT INTO person ("name", "dob") VALUES ({}, {});""").format(
+                sql.Literal(name), sql.Literal(dob)
+            )
         else:
-            query = """INSERT INTO person ("name") VALUES ('{}');""".format(name)
+            query = sql.SQL("""INSERT INTO person ("name") VALUES ({});""").format(
+                sql.Literal(name)
+            )
         self.cursor.execute(query)
 
     def insert_then_get_person(self, name, dob=None):
