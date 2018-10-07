@@ -10,7 +10,12 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.par
 class DatabaseUtils():
     cursor = None
     connection = None
+    genres = []
+    mpaa_ratings = []
+    countries = []
+    languages = []
 
+    # CONSTRUCTOR
     def __init__(self):
         self.connection = psycopg2.connect("dbname='{0}' user='{1}' host='{2}' password='{3}'".format(dbc.dbname, dbc.user, dbc.host, dbc.password))
         self.connection.set_client_encoding('UNICODE')
@@ -18,11 +23,15 @@ class DatabaseUtils():
         # cursor to perform database operations
         self.cursor = self.connection.cursor()
 
+        self.fetch_enums()
+
+    # DESTRUCTOR
     def __del__(self):
         # close communication with the database
         self.cursor.close()
         self.connection.close()
 
+    # MISC
     def commit(self):
         # make the changes to the database persistent
         self.connection.commit()
@@ -33,18 +42,36 @@ class DatabaseUtils():
     def get_connection(self):
         return self.connection
 
+    def print_query(self, query):
+        # just for debugging
+        print("----------------------------------------------")
+        print(self.cursor.mogrify(query))
+        print("----------------------------------------------")
+
+    def fetch_enums(self):
+        # genres
+        self.cursor.execute("SELECT * FROM genre;")
+        self.genres = self.cursor.fetchall()
+
+        # mpaa_ratings
+        self.cursor.execute("SELECT * FROM rating;")
+        self.mpaa_ratings = self.cursor.fetchall()
+
+        # countries
+        self.cursor.execute("SELECT * FROM country;")
+        self.countries = self.cursor.fetchall()
+
+        # languages
+        self.cursor.execute("SELECT * FROM language;")
+        self.languages = self.cursor.fetchall()
+
+    # PEOPLE
     def get_person(self, name):
         query = sql.SQL("SELECT * FROM person WHERE name={0};").format(
             sql.Literal(name)
         )
         self.cursor.execute(query)
         return self.cursor.fetchone()
-
-    def print_query(self, query):
-        # just for debugging
-        print("----------------------------------------------")
-        print(self.cursor.mogrify(query))
-        print("----------------------------------------------")
 
     def insert_person(self, name, dob=None):
         if dob:
@@ -61,6 +88,7 @@ class DatabaseUtils():
         self.insert_person(name, dob)
         return self.get_person(name)
 
+    # PERSONAL ROLES
     def get_personal_role(self, person_pk, role):
         if isinstance(person_pk, tuple):
             person_pk = person_pk[0]
@@ -74,6 +102,7 @@ class DatabaseUtils():
         query = """INSERT INTO personal_role ("person", "role") VALUES ('{}', '{}');""".format(person_pk, role)
         self.cursor.execute(query)
 
+    # MOVIES
     def get_movie(self, title, year):
         query = """SELECT * FROM movie WHERE title=%s and year=%s;"""
         self.cursor.execute(query, (title, year))
@@ -126,6 +155,7 @@ class DatabaseUtils():
         self.insert_movie(title, year, params)
         return self.get_movie(title, year)
 
+    # INVOLVEMENTS
     def get_involvement(self, person_pk, movie_pk, role):
         if isinstance(person_pk, tuple):
             person_pk = person_pk[0]
@@ -146,6 +176,28 @@ class DatabaseUtils():
             sql.Literal(person_pk), sql.Literal(movie_pk), sql.Literal(role)
         )
         self.cursor.execute(query)
+
+    # GENRES
+    def get_genre(self, genre):
+        match = filter(lambda x: x[1] == genre, self.genres)
+        return next(match) if match else None
+
+    # MPAA RATINGS
+    def get_mpaa_rating(self, mpaa_rating):
+        if mpaa_rating in ['N/A', 'NOT RATED', 'Not specified']:
+            mpaa_rating = "UNRATED"
+        match = filter(lambda x: x[1] == mpaa_rating, self.mpaa_ratings)
+        return next(match) if match else None
+
+    # COUNTRIES
+    def get_country(self, country):
+        match = filter(lambda x: x[1] == country, self.countries)
+        return next(match) if match else None
+
+    # LANGUAGES
+    def get_language(self, language):
+        match = filter(lambda x: x[1] == language, self.languages)
+        return next(match) if match else None
 
 
 class MockCursor:

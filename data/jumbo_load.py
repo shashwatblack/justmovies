@@ -53,6 +53,10 @@ def jumbo_load():
                 title = basic[6]
                 year = basic[14]
                 movie = db_utils.get_movie(title, year)
+                genre = db_utils.get_genre(basic[4])
+                mpaa_rating = db_utils.get_mpaa_rating(basic[7])
+                country = db_utils.get_country(basic[2])
+                language = db_utils.get_language(omdb["Language"].split(',')[0].strip())
                 if not movie:
                     movie = db_utils.insert_then_get_movie(title, year, {
                         "company": basic[1],
@@ -66,11 +70,10 @@ def jumbo_load():
                         "website": omdb["Website"],
                         "imdb_rating": omdb["imdbRating"],
                         "imdb_id": omdb["imdbID"],
-
-                        # genre
-                        # mpaa_rating
-                        # country
-                        # language
+                        "genre": genre[0] if genre else None,
+                        "rating": mpaa_rating[0] if mpaa_rating else None,
+                        "country": country[0] if country else None,
+                        "language": language[0] if language else None
                     })
 
                 # INVOLVEMENT
