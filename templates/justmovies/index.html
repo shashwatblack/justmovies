@@ -65,6 +65,16 @@
                                 <input type="text" class="form-control" name="company" 
                                        placeholder="Company Name" value="{{filters.company}}">
                             </div>
+                            <div class="col">
+                                <label>Year</label>
+                                <div class="input-group" style="width: 180px;">
+                                    <input type="text" class="form-control" name="year_gte"
+                                           placeholder="From" value="{{filters.year_gte}}">
+                                    <div class="input-group-addon">-</div>
+                                    <input type="text" class="form-control" name="year_lte"
+                                           placeholder="To" value="{{filters.year_lte}}">
+                                </div>
+                            </div>
                             <div class="col" style="margin-left: auto;">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="btn btn-primary">Search</button>

@@ -112,11 +112,15 @@ class DatabaseUtils():
         limit = page_size
         offset = page_size * (page_number - 1)
 
-        conditions = list()
-        if "title" in filters:
+        conditions = [sql.SQL("True")]
+        if "title" in filters and len(filters["title"]):
             conditions.append(sql.SQL("title ilike {0} ").format(sql.Literal('%' + filters["title"] + '%')))
-        if "company" in filters:
+        if "company" in filters and len(filters["company"]):
             conditions.append(sql.SQL("company ilike {0} ").format(sql.Literal('%' + filters["company"] + '%')))
+        if "year_gte" in filters and len(filters["year_gte"]):
+            conditions.append(sql.SQL("year >= {0} ").format(sql.Literal(filters["year_gte"])))
+        if "year_lte" in filters and len(filters["year_lte"]):
+            conditions.append(sql.SQL("year <= {0} ").format(sql.Literal(filters["year_lte"])))
 
         # let's first get the counts
         query = sql.SQL("SELECT count(*) FROM movie WHERE {0};").format(

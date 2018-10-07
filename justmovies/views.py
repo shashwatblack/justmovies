@@ -10,7 +10,9 @@ class HomeView(View):
 
         filters = {
             "title": request.GET.get('title', ''),
-            "company": request.GET.get('company', '')
+            "company": request.GET.get('company', ''),
+            "year_gte": request.GET.get('year_gte', ''),
+            "year_lte": request.GET.get('year_lte', '')
         }
 
         movies = db.get_movies(filters, page_number=int(request.GET.get('page', '1')))
