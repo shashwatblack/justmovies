@@ -36,6 +36,8 @@ This work is done as a course project for Database Systems (TAMU CSCE 608). The 
 		- Movie budget distribution by genre
 		- Movie budget distribution by country
 		- Movie budget distribution by language
+	- Budgets by year
+	    - Bar graph showing the total budget pattern from year to year
 	- Celebrity Stats
 		- Top 10 celebrities involved in at least 10 movies.
 			- The ranking is based on average imdb rating for each of the movies they worked in.
