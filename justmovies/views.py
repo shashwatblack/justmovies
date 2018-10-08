@@ -72,7 +72,7 @@ class MoviesView(View):
 class PeopleView(View):
     def get(self, request):
         db = DatabaseUtils()
-        name = request.GET.get('name', '')
+        name = request.GET.get('name', 'Stephen King')
 
         if not name:
             return render(request, 'justmovies/people.html', {"success": False})
