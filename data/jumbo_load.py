@@ -9,7 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.par
 
 def jumbo_load():
     count = 0
-    max_count = 100
+    max_count = 10000
     db_utils = DatabaseUtils()
     with open("movies.csv", errors='ignore') as f1:
         with open("movies_with_omdb.csv", errors='ignore') as f2:
