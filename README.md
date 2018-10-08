@@ -48,13 +48,13 @@ This work is done as a course project for Database Systems (TAMU CSCE 608). The 
 	- Ability to delete the movie entirely from the system.
 		- This will also delete all the associated celebrity involvements and reviews from the system.
 ## How was the data collected?
- 5. The initial data was downloaded from kaggle - https://www.kaggle.com/danielgrijalvas/movies
- 6. Additional data, such as posters, imdb id and so on were fetched using the OMDB API - omdbapi.com
- 7. A python script `omdb_fetch.py` was written to fetch data in batches over a period of few days (due to API limitations).
- 8. All the data was collected in two CSVs - `data/movies.csv` and `data/movies_with_omdb.csv`
- 9. Further tests were written to verify the consistency of the data.
- 10. Finally fixed values like `country`, `language`, and `genre` was extracted and SQL insert scripts were created for these.
- 11. For remaining tables, another script `data/jumbo_load.py` was written to  run over the CSVs and insert everything into the database directly.
+ 1. The initial data was downloaded from kaggle - https://www.kaggle.com/danielgrijalvas/movies
+ 2. Additional data, such as posters, imdb id and so on were fetched using the OMDB API - omdbapi.com
+ 3. A python script `omdb_fetch.py` was written to fetch data in batches over a period of few days (due to API limitations).
+ 4. All the data was collected in two CSVs - `data/movies.csv` and `data/movies_with_omdb.csv`
+ 5. Further tests were written to verify the consistency of the data.
+ 6. Finally fixed values like `country`, `language`, and `genre` was extracted and SQL insert scripts were created for these.
+ 7. For remaining tables, another script `data/jumbo_load.py` was written to  run over the CSVs and insert everything into the database directly.
 ## What technologies does it use?
  1. PostgreSQL
  2. Django
