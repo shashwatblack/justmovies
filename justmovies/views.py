@@ -119,6 +119,10 @@ class MovieEditView(View):
 
     def post(self, request, movie_pk):
         db = DatabaseUtils()
+        if request.POST.get("action", "update") == "delete":
+            db.delete_movie(movie_pk)
+            return HttpResponseRedirect('/')
+
         db.update_movie(movie_pk, {
             "title": request.POST.get("title", ""),
             "year": request.POST.get("year", ""),

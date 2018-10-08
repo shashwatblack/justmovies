@@ -188,6 +188,13 @@ class DatabaseUtils():
         self.cursor.execute(query)
         self.commit()
 
+    def delete_movie(self, movie_pk):
+        query = sql.SQL("DELETE FROM movie WHERE pk={0};").format(
+            sql.Literal(movie_pk)
+        )
+        self.cursor.execute(query)
+        self.commit()
+
     # INVOLVEMENTS
     def get_involvement(self, person_pk, movie_pk, role):
         if isinstance(person_pk, tuple):

@@ -54,7 +54,7 @@ CREATE TYPE ROLE AS ENUM('Actor', 'Director', 'Producer', 'Writer');
 CREATE TABLE personal_role(
     pk SERIAL PRIMARY KEY,
     role ROLE,
-    person INTEGER REFERENCES person(pk)
+    person INTEGER REFERENCES person(pk) ON DELETE CASCADE
 );
 
 -- MOVIE -----------------------------------------------------------
@@ -73,25 +73,25 @@ CREATE TABLE movie(
     website VARCHAR(1000),
     imdb_rating VARCHAR(10),
     imdb_id VARCHAR(50),
-    country INTEGER REFERENCES country(pk),
-    rating INTEGER REFERENCES rating(pk),
-    genre INTEGER REFERENCES genre(pk),
-    language INTEGER REFERENCES language(pk)
+    country INTEGER REFERENCES country(pk) ON DELETE CASCADE,
+    rating INTEGER REFERENCES rating(pk) ON DELETE CASCADE,
+    genre INTEGER REFERENCES genre(pk) ON DELETE CASCADE,
+    language INTEGER REFERENCES language(pk) ON DELETE CASCADE
 );
 
 -- INVOLVEMENT -----------------------------------------------------
 CREATE TABLE involvement(
     pk SERIAL PRIMARY KEY,
     role ROLE,
-    person INTEGER REFERENCES person(pk),
-    movie INTEGER REFERENCES movie(pk)
+    person INTEGER REFERENCES person(pk) ON DELETE CASCADE,
+    movie INTEGER REFERENCES movie(pk) ON DELETE CASCADE
 );
 
 -- REVIEW ----------------------------------------------------------
 CREATE TABLE review(
     pk SERIAL PRIMARY KEY,
-    -- user INTEGER REFERENCES user(pk), -- we don't have users yet
-    movie INTEGER REFERENCES movie(pk),
+    -- user INTEGER REFERENCES user(pk) ON DELETE CASCADE, -- we don't have users yet
+    movie INTEGER REFERENCES movie(pk) ON DELETE CASCADE,
     text TEXT,
     rating SMALLINT,
     constraint rating_range_check check(rating >= 1 and rating <= 10)

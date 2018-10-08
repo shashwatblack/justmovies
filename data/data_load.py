@@ -34,4 +34,8 @@ db_utils.commit()
 print('inserting movies, people and roles...')
 jumbo_load()
 
+print('running custom queries..')
+cursor.execute(open("custom_queries.sql", "r").read())
+db_utils.commit()
+
 print("ALL DONE!")
