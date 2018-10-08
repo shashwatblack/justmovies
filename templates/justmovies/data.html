@@ -17,6 +17,8 @@
     <script type="text/javascript" src="{% static "bootflat/js/site.min.js" %}"></script>
     <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}">
     <script type="text/javascript" src="{% static "js/Chart.bundle.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/d3.v4.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/venn.js" %}"></script>
     <!-- just movies stuffs -->
     <link rel="stylesheet" href="{% static "css/styles.css" %}">
     <link rel="stylesheet" href="{% static "css/data_stats.css" %}">
@@ -53,7 +55,6 @@
                 <h1>Just Data, Clearly.</h1>
             </div>
         </div>
-        <!-- Movies ================================================== -->
         <div class="container">
             <div class="panel panel-just-dashed">
                 <div class="panel-body">
@@ -113,10 +114,6 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    {{ celebrityRoleDistribution }}
-                    <hr>
-                </div>
-                <div class="panel-body">
                     <div class="row">
                         <div class="col-md-4">
                             <canvas id="countDistByGenre" width="400" height="425"></canvas>
@@ -139,9 +136,34 @@
                             <canvas id="budgetDistByLanguage" width="400" height="400"></canvas>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 20px;">
+                    <hr>
+                    <div class="row" style="margin-top: 10px;">
                         <div class="col-md-12">
                             <canvas id="budgetDistByYear" width="400" height="100"></canvas>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-6">
+                            <p class="text-center">Top 10 Celebrities</p>
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Celebrity</th>
+                                    <th class="text-center">Total Movies</th>
+                                    <th class="text-center">Average Rating</th>
+                                </tr>
+                                {% for celebrity in topRatedCelebrities %}
+                                <tr>
+                                    <td>{{ celebrity.name }}</td>
+                                    <td class="text-center">{{ celebrity.movie_count }}</td>
+                                    <td class="text-center">{{ celebrity.avg_rating }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-center">Celebrity Role Distribution</p>
+                            <div id="celebrityRoleDistributionVenn"></div>
                         </div>
                     </div>
                 </div>
@@ -259,7 +281,6 @@
             }
         });
 
-
         ctx = document.getElementById("budgetDistByYear").getContext('2d');
         budgetDistByYear = new Chart(ctx, {
             type: 'bar',
@@ -273,6 +294,10 @@
                     display: false
                 }}
         });
+
+        sets = {{ celebrityRoleDistribution | safe }};
+        chart = venn.VennDiagram();
+        d3.select("#celebrityRoleDistributionVenn").datum(sets).call(chart);
     </script>
 </body>
 

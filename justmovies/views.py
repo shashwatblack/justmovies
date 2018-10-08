@@ -120,9 +120,6 @@ class DataView(View):
         cursor.execute("SELECT COUNT(*) FROM person;")
         peopleGeneral = cursor.fetchone()
 
-        cursor.execute("SELECT count(person.pk), role FROM person JOIN personal_role ON person.pk = personal_role.person group by personal_role.role;")
-        celebrityRoleDistribution = cursor.fetchall()
-
         general = {
             "moviesCount": moviesGeneral[0],
             "moviesMinYear": moviesGeneral[1],
@@ -227,6 +224,71 @@ class DataView(View):
             "labels": [g[0] for g in budgetDistByYear]
         }
 
+        # ROLES DISTRIBUTION
+        cursor.execute("SELECT count(person.pk), role FROM person JOIN personal_role ON person.pk = personal_role.person group by personal_role.role;")
+        celebrityRoleDistribution = cursor.fetchall()
+        celebrityRoleDistribution = [{
+            "sets": [c[1]],
+            "size": c[0]
+        } for c in celebrityRoleDistribution]
+        cursor.execute("select count(*) from person where "
+                       "person.pk in (select person from involvement where role='Writer') and "
+                       "person.pk in (select person from involvement where role='Actor');")
+        result = cursor.fetchone()
+        celebrityRoleDistribution.append({
+            "sets": ["Writer", "Actor"],
+            "size": result[0]
+        })
+        cursor.execute("select count(*) from person where "
+                       "person.pk in (select person from involvement where role='Director') and "
+                       "person.pk in (select person from involvement where role='Actor');")
+        result = cursor.fetchone()
+        celebrityRoleDistribution.append({
+            "sets": ["Director", "Actor"],
+            "size": result[0]
+        })
+        cursor.execute("select count(*) from person where "
+                       "person.pk in (select person from involvement where role='Writer') and "
+                       "person.pk in (select person from involvement where role='Director');")
+        result = cursor.fetchone()
+        celebrityRoleDistribution.append({
+            "sets": ["Writer", "Director"],
+            "size": result[0]
+        })
+        cursor.execute("select count(*) from person where "
+                       "person.pk in (select person from involvement where role='Writer') and "
+                       "person.pk in (select person from involvement where role='Director') and "
+                       "person.pk in (select person from involvement where role='Actor');")
+        result = cursor.fetchone()
+        celebrityRoleDistribution.append({
+            "sets": ["Writer", "Actor", "Director"],
+            "size": result[0]
+        })
+
+        # TOP RATED CELEBRITIES
+        cursor.execute("""
+            select
+              ip.name,
+              avg(NULLIF(imdb_rating, 'N/A') :: float) as avg_rating,
+              count(*)                                 as movie_count
+            from movie m
+              join (select
+                      p.name,
+                      i.movie
+                    from person p
+                      join involvement i on p.pk = i.person) ip on ip.movie = m.pk
+            group by ip.name
+            having count(*) >= 10
+            order by -avg(NULLIF(imdb_rating, 'N/A') :: float)
+            limit 10;
+        """)
+        topRatedCelebrities = cursor.fetchall()
+        topRatedCelebrities = [{
+            "name": t[0],
+            "avg_rating": '{0:.2f}'.format(t[1]),
+            "movie_count": t[2]
+        } for t in topRatedCelebrities]
+
         context = {
             "general": general,
             "countDistByGenre": countDistByGenre,
@@ -236,6 +298,7 @@ class DataView(View):
             "budgetDistByCountry": budgetDistByCountry,
             "budgetDistByLanguage": budgetDistByLanguage,
             "budgetDistByYear": budgetDistByYear,
-            "celebrityRoleDistribution": celebrityRoleDistribution
+            "celebrityRoleDistribution": celebrityRoleDistribution,
+            "topRatedCelebrities": topRatedCelebrities
         }
         return render(request, 'justmovies/data.html', context)
