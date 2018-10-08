@@ -127,7 +127,7 @@ class DataView(View):
             "moviesCount": moviesGeneral[0],
             "moviesMinYear": moviesGeneral[1],
             "moviesMaxYear": moviesGeneral[2],
-            "moviesBudget": moviesGeneral[3],
+            "moviesBudget": moviesGeneral[3] // 1000000,
             "totalPeople": peopleGeneral[0],
             "totalReviews": 0,
         }

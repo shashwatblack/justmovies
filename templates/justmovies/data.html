@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="details">
                                     <div class="number">
-                                        <span>{{ general.moviesCount }}</span>
+                                        <span>{{ general.moviesCount|intcomma }}</span>
                                     </div>
                                     <div class="stat-description">Movies</div>
                                 </div>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="details">
                                     <div class="number">
-                                        <span>{{ general.totalPeople }}</span>
+                                        <span>{{ general.totalPeople|intcomma }}</span>
                                     </div>
                                     <div class="stat-description">Celebrities</div>
                                 </div>
@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="details">
                                     <div class="number">
-                                        <span>${{ general.moviesBudget|intcomma }}</span>
+                                        <span>${{ general.moviesBudget|intcomma }} M</span>
                                     </div>
                                     <div class="stat-description">Net Worth</div>
                                 </div>
