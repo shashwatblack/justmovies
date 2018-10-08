@@ -133,14 +133,17 @@ class DataView(View):
         }
 
         # DISTRIBUTION BY GENRE
-        cursor.execute("select g.name, count(*) from movie m join genre g on m.genre = g.pk group by g.name;")
+        cursor.execute("select g.name, count(*) from movie m join genre g on m.genre = g.pk group by g.name order by -count(*) limit 8;")
         countDistByGenre = cursor.fetchall()
+        cursor.execute("select count(*) from movie m join genre g on m.genre = g.pk group by g.name order by -count(*) offset 8;")
+        remainingGenres = cursor.fetchall()
+        remainingGenres = sum([r[0] for r in remainingGenres])
         countDistByGenre = {
             "datasets": [{
-                "data": [g[1] for g in countDistByGenre],
-                "backgroundColor": Enums.colors[:len(countDistByGenre)]
+                "data": [g[1] for g in countDistByGenre] + [remainingGenres],
+                "backgroundColor": Enums.colors[:len(countDistByGenre)] + ["#888"]
             }],
-            "labels": [g[0] for g in countDistByGenre]
+            "labels": [g[0] for g in countDistByGenre] + ["Others"]
         }
 
         # DISTRIBUTION BY COUNTRY
@@ -171,13 +174,56 @@ class DataView(View):
             "labels": [g[0] for g in countDistByLanguage] + ["Others"]
         }
 
+        # BUDGET DISTRIBUTION BY GENRE
+        cursor.execute("select g.name, sum(budget) from movie m join genre g on m.genre = g.pk group by g.name order by -count(*) limit 8;")
+        budgetDistByGenre = cursor.fetchall()
+        cursor.execute("select sum(budget) from movie m join genre g on m.genre = g.pk group by g.name order by -count(*) offset 8;")
+        remainingGenres = cursor.fetchall()
+        remainingGenres = sum([r[0] for r in remainingGenres])
+        budgetDistByGenre = {
+            "datasets": [{
+                "data": [g[1] for g in budgetDistByGenre] + [remainingGenres],
+                "backgroundColor": Enums.colors[:len(budgetDistByGenre)] + ["#888"]
+            }],
+            "labels": [g[0] for g in budgetDistByGenre] + ["Others"]
+        }
+
+        # BUDGET DISTRIBUTION BY COUNTRY
+        cursor.execute("select c.name, sum(budget) from movie m join country c on m.country = c.pk group by c.name order by -count(*) limit 5;")
+        budgetDistByCountry = cursor.fetchall()
+        cursor.execute("select sum(budget) from movie m join country c on m.country = c.pk group by c.name order by -count(*) offset 5;")
+        remainingCountries = cursor.fetchall()
+        remainingCountries = sum([r[0] for r in remainingCountries])
+        budgetDistByCountry = {
+            "datasets": [{
+                "data": [g[1] for g in budgetDistByCountry] + [remainingCountries],
+                "backgroundColor": Enums.colors[:len(budgetDistByCountry)] + ["#888"]
+            }],
+            "labels": [g[0] for g in budgetDistByCountry] + ["Others"]
+        }
+
+        # BUDGET DISTRIBUTION BY LANGUAGE
+        cursor.execute("select c.name, sum(budget) from movie m join language c on m.language = c.pk group by c.name order by -count(*) limit 5;")
+        budgetDistByLanguage = cursor.fetchall()
+        cursor.execute("select sum(budget) from movie m join language c on m.language = c.pk group by c.name order by -count(*) offset 5;")
+        remainingLanguages = cursor.fetchall()
+        remainingLanguages = sum([r[0] for r in remainingLanguages])
+        budgetDistByLanguage = {
+            "datasets": [{
+                "data": [g[1] for g in budgetDistByLanguage] + [remainingLanguages],
+                "backgroundColor": Enums.colors[:len(budgetDistByLanguage)] + ["#888"]
+            }],
+            "labels": [g[0] for g in budgetDistByLanguage] + ["Others"]
+        }
+
         context = {
             "general": general,
             "countDistByGenre": countDistByGenre,
             "countDistByCountry": countDistByCountry,
             "countDistByLanguage": countDistByLanguage,
-            "budgetDistByGenre": general,
-            "budgetDistByLanguage": countDistByLanguage,
+            "budgetDistByGenre": budgetDistByGenre,
+            "budgetDistByCountry": budgetDistByCountry,
+            "budgetDistByLanguage": budgetDistByLanguage,
             "celebrityRoleDistribution": celebrityRoleDistribution
         }
         return render(request, 'justmovies/data.html', context)

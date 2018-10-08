@@ -129,13 +129,24 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <canvas id="countDistByGenre" width="400" height="450"></canvas>
+                            <canvas id="countDistByGenre" width="400" height="425"></canvas>
                         </div>
                         <div class="col-md-4">
                             <canvas id="countDistByCountry" width="400" height="400"></canvas>
                         </div>
                         <div class="col-md-4">
                             <canvas id="countDistByLanguage" width="400" height="400"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <canvas id="budgetDistByGenre" width="400" height="425"></canvas>
+                        </div>
+                        <div class="col-md-4">
+                            <canvas id="budgetDistByCountry" width="400" height="400"></canvas>
+                        </div>
+                        <div class="col-md-4">
+                            <canvas id="budgetDistByLanguage" width="400" height="400"></canvas>
                         </div>
                     </div>
                     <div class="row">
@@ -203,6 +214,54 @@
                 title: {
                     display: true,
                     text: 'Movies by Language'
+                },
+                legend: {
+                    display: true,
+                    position: "bottom"
+                }
+            }
+        });
+
+        ctx = document.getElementById("budgetDistByGenre").getContext('2d');
+        budgetDistByGenreChart = new Chart(ctx, {
+            type: 'pie',
+            data: {{ budgetDistByGenre | safe }},
+            options: {
+                title: {
+                    display: true,
+                    text: 'Budget by Genre'
+                },
+                legend: {
+                    display: true,
+                    position: "bottom"
+                }
+            }
+        });
+
+        ctx = document.getElementById("budgetDistByCountry").getContext('2d');
+        budgetDistByCountryChart = new Chart(ctx, {
+            type: 'pie',
+            data: {{ budgetDistByCountry | safe }},
+            options: {
+                title: {
+                    display: true,
+                    text: 'Budget by Country'
+                },
+                legend: {
+                    display: true,
+                    position: "bottom"
+                }
+            }
+        });
+
+        ctx = document.getElementById("budgetDistByLanguage").getContext('2d');
+        budgetDistByLanguageChart = new Chart(ctx, {
+            type: 'pie',
+            data: {{ budgetDistByLanguage | safe }},
+            options: {
+                title: {
+                    display: true,
+                    text: 'Budget by Language'
                 },
                 legend: {
                     display: true,
