@@ -63,7 +63,7 @@ CREATE TABLE movie(
     title VARCHAR(500) NOT NULL,
     year SMALLINT,
     company VARCHAR(1000),
-    budget VARCHAR(50),
+    budget INTEGER,
     gross VARCHAR(50),
     released VARCHAR(50),
     runtime VARCHAR(50),

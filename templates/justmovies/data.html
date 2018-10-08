@@ -1,10 +1,11 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title>Just People</title>
+    <title>Just Data</title>
     <!-- Sets initial viewport load and disables zooming  -->
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="keywords" content="Just Movies, Movies, Actors, Directors, Ratings, Analytics">
@@ -14,8 +15,11 @@
     <link rel="stylesheet" href="{% static "bootflat/css/site.min.css" %}">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="{% static "bootflat/js/site.min.js" %}"></script>
+    <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}">
+    <script type="text/javascript" src="{% static "js/Chart.bundle.min.js" %}"></script>
     <!-- just movies stuffs -->
     <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    <link rel="stylesheet" href="{% static "css/data_stats.css" %}">
 </head>
 
 <body class="home">
@@ -52,64 +56,61 @@
         <!-- Movies ================================================== -->
         <div class="container">
             <div class="panel panel-just-dashed">
-                <div class="panel-heading">
-                    <form action="/people" method="get">
-                        <div class="filter-bar">
-                            <div class="col">
-                                <label>Name</label>
-                                <input type="text" class="form-control" name="name"
-                                       placeholder="Name" value="{{name}}">
-                            </div>
-                            <div class="col" style="margin-left: auto;">
-                                <label>&nbsp;</label>
-                                <button type="submit" class="btn btn-primary">Search</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
                 <div class="panel-body">
-                    {% if success %}
-                        <table>
-                        <tr>
-                            <td>
-                                <img src="{{ image }}" alt="">
-                            </td>
-                            <td style="padding: 0 20px; vertical-align: top;">
-                                <h3 style="margin-top: 0;">{{ name }}</h3>
-                                <p>Born: <b>{{ dob }}</b></p>
-                                <p>Roles: <b>{{ roles }}</b></p>
-                                <p>{{ intro | linebreaks }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <table style="margin-top: 20px;">
-                                    <tr>
-                                        <th>
-                                            <u><b>Filmography</b></u>
-                                        </th>
-                                    </tr>
-                                    {% for involvement in involvements %}
-                                        <tr>
-                                            <td style="width: 50px; padding: 5px 0;">
-                                                <img src="{{ involvement.poster }}" alt="" width="100%">
-                                            </td>
-                                            <td style="padding: 5px 10px;">
-                                                <a href="">{{ involvement.title }}</a>, {{ involvement.year }} <br>
-                                                <b>{{ involvement.role }}</b> <br>
-                                                {{ involvement.awards }}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </td>
-                        </tr>
-                        </table>
-                    {% else %}
-                        <h4 class="text-center">
-                          No matches found for the provided name.
-                        </h4>
-                    {% endif %}
+                    <div class="stats-wrapper">
+                        <div class="stat-box">
+                            <a class="dashboard-stat red" href="#">
+                                <div class="visual">
+                                    <i class="fa fa-credit-card"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+                                        <span>{{ general.moviesCount }}</span>
+                                    </div>
+                                    <div class="stat-description">Movies</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="stat-box">
+                            <a class="dashboard-stat blue" href="#">
+                                <div class="visual">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+                                        <span>{{ general.totalPeople }}</span>
+                                    </div>
+                                    <div class="stat-description">Celebrities</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="stat-box">
+                            <a class="dashboard-stat hoki" href="#">
+                                <div class="visual">
+                                    <i class="fa fa-usd"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+                                        <span>${{ general.moviesBudget|intcomma }}</span>
+                                    </div>
+                                    <div class="stat-description">Net Worth</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="stat-box">
+                            <a class="dashboard-stat purple" href="#">
+                                <div class="visual">
+                                    <i class="fa fa-comments"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+                                        <span>{{ general.totalReviews|intcomma }}</span>
+                                    </div>
+                                    <div class="stat-description">Reviews</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--footer-->

@@ -107,3 +107,37 @@ class PeopleView(View):
             "involvements": involvements,
         }
         return render(request, 'justmovies/people.html', context)
+
+
+class DataView(View):
+    def get(self, request):
+        db = DatabaseUtils()
+        cursor = db.get_cursor()
+
+        cursor.execute("SELECT COUNT(*), MIN(year), MAX(year), SUM(budget) FROM movie;")
+        moviesGeneral = cursor.fetchone()
+
+        cursor.execute("SELECT COUNT(*) FROM person;")
+        peopleGeneral = cursor.fetchone()
+
+        cursor.execute("SELECT count(person.pk), role FROM person JOIN personal_role ON person.pk = personal_role.person group by personal_role.role;")
+        celebrityRoleDistribution = cursor.fetchall()
+
+        general = {
+            "moviesCount": moviesGeneral[0],
+            "moviesMinYear": moviesGeneral[1],
+            "moviesMaxYear": moviesGeneral[2],
+            "moviesBudget": moviesGeneral[3],
+            "totalPeople": peopleGeneral[0],
+            "totalReviews": 0,
+        }
+
+        context = {
+            "general": general,
+            "countDistByGenre": general,
+            "budgetDistByGenre": general,
+            "countDistByLanguage": general,
+            "budgetDistByLanguage": general,
+            "celebrityRoleDistribution": celebrityRoleDistribution
+        }
+        return render(request, 'justmovies/data.html', context)
