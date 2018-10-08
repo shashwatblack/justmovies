@@ -132,12 +132,52 @@ class DataView(View):
             "totalReviews": 0,
         }
 
+        # DISTRIBUTION BY GENRE
+        cursor.execute("select g.name, count(*) from movie m join genre g on m.genre = g.pk group by g.name;")
+        countDistByGenre = cursor.fetchall()
+        countDistByGenre = {
+            "datasets": [{
+                "data": [g[1] for g in countDistByGenre],
+                "backgroundColor": Enums.colors[:len(countDistByGenre)]
+            }],
+            "labels": [g[0] for g in countDistByGenre]
+        }
+
+        # DISTRIBUTION BY COUNTRY
+        cursor.execute("select c.name, count(*) from movie m join country c on m.country = c.pk group by c.name order by -count(*) limit 5;")
+        countDistByCountry = cursor.fetchall()
+        cursor.execute("select count(*) from movie m join country c on m.country = c.pk group by c.name order by -count(*) offset 5;")
+        remainingCountries = cursor.fetchall()
+        remainingCountries = sum([r[0] for r in remainingCountries])
+        countDistByCountry = {
+            "datasets": [{
+                "data": [g[1] for g in countDistByCountry] + [remainingCountries],
+                "backgroundColor": Enums.colors[:len(countDistByCountry)] + ["#888"]
+            }],
+            "labels": [g[0] for g in countDistByCountry] + ["Others"]
+        }
+
+        # DISTRIBUTION BY LANGUAGE
+        cursor.execute("select c.name, count(*) from movie m join language c on m.language = c.pk group by c.name order by -count(*) limit 5;")
+        countDistByLanguage = cursor.fetchall()
+        cursor.execute("select count(*) from movie m join language c on m.language = c.pk group by c.name order by -count(*) offset 5;")
+        remainingLanguages = cursor.fetchall()
+        remainingLanguages = sum([r[0] for r in remainingLanguages])
+        countDistByLanguage = {
+            "datasets": [{
+                "data": [g[1] for g in countDistByLanguage] + [remainingLanguages],
+                "backgroundColor": Enums.colors[:len(countDistByLanguage)] + ["#888"]
+            }],
+            "labels": [g[0] for g in countDistByLanguage] + ["Others"]
+        }
+
         context = {
             "general": general,
-            "countDistByGenre": general,
+            "countDistByGenre": countDistByGenre,
+            "countDistByCountry": countDistByCountry,
+            "countDistByLanguage": countDistByLanguage,
             "budgetDistByGenre": general,
-            "countDistByLanguage": general,
-            "budgetDistByLanguage": general,
+            "budgetDistByLanguage": countDistByLanguage,
             "celebrityRoleDistribution": celebrityRoleDistribution
         }
         return render(request, 'justmovies/data.html', context)
