@@ -216,6 +216,17 @@ class DataView(View):
             "labels": [g[0] for g in budgetDistByLanguage] + ["Others"]
         }
 
+        # BUDGET DISTRIBUTION BY YEAR
+        cursor.execute("select year, sum(budget) from movie group by year order by year;")
+        budgetDistByYear = cursor.fetchall()
+        budgetDistByYear = {
+            "datasets": [{
+                "data": [g[1] for g in budgetDistByYear],
+                "backgroundColor": Enums.colors[:len(budgetDistByYear)]
+            }],
+            "labels": [g[0] for g in budgetDistByYear]
+        }
+
         context = {
             "general": general,
             "countDistByGenre": countDistByGenre,
@@ -224,6 +235,7 @@ class DataView(View):
             "budgetDistByGenre": budgetDistByGenre,
             "budgetDistByCountry": budgetDistByCountry,
             "budgetDistByLanguage": budgetDistByLanguage,
+            "budgetDistByYear": budgetDistByYear,
             "celebrityRoleDistribution": celebrityRoleDistribution
         }
         return render(request, 'justmovies/data.html', context)
