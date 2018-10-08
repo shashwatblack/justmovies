@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Just People</title>
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="keywords" content="Just Movies, Movies, Actors, Directors, Ratings, Analytics">
+    <meta name="description" content="Just Movies is just about movies. Our analytics may interest you.">
+    <link rel="shortcut icon" type="image/png" href="{% static "favicon.png" %}" />
+    <!-- bootflat stuffs -->
+    <link rel="stylesheet" href="{% static "bootflat/css/site.min.css" %}">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static "bootflat/js/site.min.js" %}"></script>
+    <!-- just movies stuffs -->
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+</head>
+
+<body class="home">
+    <div class="docs-header">
+        <!--nav-->
+        <nav class="navbar navbar-default navbar-custom" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">
+              <img src="{% static "logo.svg" %}" height="40">
+            </a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="nav-link" href="{% url 'movies' %}">Movies</a></li>
+                        <li><a class="nav-link" href="{% url 'people' %}">People</a></li>
+                        <li><a class="nav-link" href="{% url 'data' %}">Data</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!--index-->
+        <div class="index">
+            <div class="container">
+                <h1>Just Movie, Specially.</h1>
+            </div>
+        </div>
+        <!-- Movies ================================================== -->
+        <div class="container">
+            <div class="panel panel-just-dashed">
+                <div class="panel-heading">
+                    <h3 class="no-margin">{{ movie.title }}</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal col-md-12" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Title</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="title" placeholder="Title" value="{{ movie.title }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Year</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="year" placeholder="Year" value="{{ movie.year }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Company</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="company" placeholder="Company" value="{{ movie.company }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Budget</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="budget" placeholder="Budget" value="{{ movie.budget }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Gross</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="gross" placeholder="Gross" value="{{ movie.gross }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Released</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="released" placeholder="Released" value="{{ movie.released }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Runtime</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="runtime" placeholder="Runtime" value="{{ movie.runtime }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Plot</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="plot" placeholder="Plot">{{ movie.plot }}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Awards</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="awards" placeholder="Awards">{{ movie.awards }}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Poster</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="poster" placeholder="Poster" value="{{ movie.poster }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Website</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="website" placeholder="Website" value="{{ movie.website }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">IMDB Rating</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="imdb_rating" placeholder="IMDB Rating" value="{{ movie.imdb_rating }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Country</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="country">
+                                    {% for country in countries %}
+                                        <option value="{{ country.pk }}" {% if country.pk == movie.country %} selected {% endif %}>
+                                            {{ country.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Rating</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="rating">
+                                    {% for rating in ratings %}
+                                        <option value="{{ rating.pk }}" {% if rating.pk == movie.rating %} selected {% endif %}>
+                                            {{ rating.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Genre</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="genre">
+                                    {% for genre in genres %}
+                                        <option value="{{ genre.pk }}" {% if genre.pk == movie.genre %} selected {% endif %}>
+                                            {{ genre.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Language</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="language">
+                                    {% for language in languages %}
+                                        <option value="{{ language.pk }}" {% if language.pk == movie.language %} selected {% endif %}>
+                                            {{ language.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--footer-->
+            <div class="site-footer">
+                <div class="container">
+                    <div class="copyright clearfix">
+                        <p>
+                            <b>Just Movies.</b>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="{% url 'movies' %}">Movies</a>&nbsp;&bull;&nbsp;
+                            <a href="{% url 'people' %}">People</a>&nbsp;&bull;&nbsp;
+                            <a href="{% url 'data' %}">Data</a>
+                        </p>
+                        <p>A Database Systems (TAMU CSCE 608) course project developed by Shashwat Shashi Mehta. UIN: <b>827008698</b></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

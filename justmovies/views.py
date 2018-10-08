@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.views import View
 from django.shortcuts import render
 
@@ -67,6 +68,77 @@ class MoviesView(View):
             "ratings": Enums.imdb_ratings
         }
         return render(request, 'justmovies/index.html', context)
+
+
+class MovieEditView(View):
+    def get_context_data(self, movie_pk):
+        db = DatabaseUtils()
+        movie = db.get_movie_from_pk(movie_pk)
+        context = {
+            "movie": {
+                "pk": movie[0],
+                "title": movie[1],
+                "year": movie[2],
+                "company": movie[3],
+                "budget": movie[4],
+                "gross": movie[5],
+                "released": movie[6],
+                "runtime": movie[7],
+                "plot": movie[8],
+                "awards": movie[9],
+                "poster": movie[10],
+                "website": movie[11],
+                "imdb_rating": movie[12],
+                "imdb_id": movie[13],
+                "country": movie[14],
+                "rating": movie[15],
+                "genre": movie[16],
+                "language": movie[17]
+            },
+            "countries": [{
+                "pk": c[0],
+                "name": c[1]
+            } for c in db.countries],
+            "ratings": [{
+                "pk": c[0],
+                "name": c[1]
+            } for c in db.mpaa_ratings],
+            "genres": [{
+                "pk": c[0],
+                "name": c[1]
+            } for c in db.genres],
+            "languages": [{
+                "pk": c[0],
+                "name": c[1]
+            } for c in db.languages]
+        }
+        return context
+
+    def get(self, request, movie_pk):
+        return render(request, 'justmovies/movie_edit.html', self.get_context_data(movie_pk))
+
+    def post(self, request, movie_pk):
+        db = DatabaseUtils()
+        db.update_movie(movie_pk, {
+            "title": request.POST.get("title", ""),
+            "year": request.POST.get("year", ""),
+            "company": request.POST.get("company", ""),
+            "budget": request.POST.get("budget", ""),
+            "gross": request.POST.get("gross", ""),
+            "released": request.POST.get("released", ""),
+            "runtime": request.POST.get("runtime", ""),
+            "plot": request.POST.get("plot", ""),
+            "awards": request.POST.get("awards", ""),
+            "poster": request.POST.get("poster", ""),
+            "website": request.POST.get("website", ""),
+            "imdb_rating": request.POST.get("imdb_rating", ""),
+            "imdb_id": request.POST.get("imdb_id", ""),
+            "country": request.POST.get("country", ""),
+            "rating": request.POST.get("rating", ""),
+            "genre": request.POST.get("genre", ""),
+            "language": request.POST.get("language", "")
+        })
+        return render(request, 'justmovies/movie_edit.html', self.get_context_data(movie_pk))
 
 
 class PeopleView(View):

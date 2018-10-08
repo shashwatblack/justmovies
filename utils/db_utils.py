@@ -122,6 +122,11 @@ class DatabaseUtils():
         self.cursor.execute(query, (title, year))
         return self.cursor.fetchone()
 
+    def get_movie_from_pk(self, movie_pk):
+        query = """SELECT * FROM movie WHERE pk=%s;"""
+        self.cursor.execute(query, (movie_pk,))
+        return self.cursor.fetchone()
+
     def get_movies(self, filters, page_number=1, page_size=20):
         limit = page_size
         offset = page_size * (page_number - 1)
@@ -175,6 +180,14 @@ class DatabaseUtils():
         self.insert_movie(title, year, params)
         return self.get_movie(title, year)
 
+    def update_movie(self, movie_pk, params={}):
+        query = sql.SQL("UPDATE movie SET {0} WHERE pk={1};").format(
+            sql.SQL(', ').join([sql.Identifier(key) + sql.SQL('=') + sql.Literal(params[key]) for key in params]),
+            sql.Literal(movie_pk)
+        )
+        self.cursor.execute(query)
+        self.commit()
+
     # INVOLVEMENTS
     def get_involvement(self, person_pk, movie_pk, role):
         if isinstance(person_pk, tuple):
@@ -206,7 +219,6 @@ class DatabaseUtils():
         self.cursor.execute(query)
 
         return self.cursor.fetchall()
-
 
     # GENRES
     def get_genre(self, genre):

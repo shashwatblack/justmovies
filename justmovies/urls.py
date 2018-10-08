@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
-from justmovies.views import MoviesView, PeopleView, DataView
+from justmovies.views import MoviesView, PeopleView, DataView, MovieEditView
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
@@ -24,5 +24,6 @@ urlpatterns = [
     path('people', PeopleView.as_view(), name='people'),
     path('data', DataView.as_view(), name='data'),
     path('admin/', admin.site.urls),
+    url(r'^movies/edit/(?P<movie_pk>\d+)/$', MovieEditView.as_view(), name='movie_edit'),
     url(r'^.*$', RedirectView.as_view(url='/movies', permanent=False), name='home')
 ]

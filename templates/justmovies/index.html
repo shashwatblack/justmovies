@@ -106,7 +106,7 @@
                                 <div class="text-center">
                                     <a href="https://www.imdb.com/title/{{movie.imdb_id}}"
                                        class="btn btn-default flat" role="button" target="_blank">IMDB</a>
-                                    <a href="#" class="btn btn-warning flat" role="button">Edit</a>
+                                    <a href="{% url 'movie_edit' movie.pk %}" class="btn btn-warning flat" role="button">Edit</a>
                                 </div>
                             </div>
                         </div>
