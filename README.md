@@ -47,6 +47,7 @@ This work is done as a course project for Database Systems (TAMU CSCE 608). The 
 	- Fixed fields are provided as select dropdown
 	- Ability to delete the movie entirely from the system.
 		- This will also delete all the associated celebrity involvements and reviews from the system.
+
 ## How was the data collected?
  1. The initial data was downloaded from kaggle - https://www.kaggle.com/danielgrijalvas/movies
  2. Additional data, such as posters, imdb id and so on were fetched using the OMDB API - omdbapi.com
@@ -55,6 +56,7 @@ This work is done as a course project for Database Systems (TAMU CSCE 608). The 
  5. Further tests were written to verify the consistency of the data.
  6. Finally fixed values like `country`, `language`, and `genre` was extracted and SQL insert scripts were created for these.
  7. For remaining tables, another script `data/jumbo_load.py` was written to  run over the CSVs and insert everything into the database directly.
+
 ## What technologies does it use?
  1. PostgreSQL
  2. Django
@@ -66,6 +68,7 @@ This work is done as a course project for Database Systems (TAMU CSCE 608). The 
  8. venn.js
  9. Bootflat
  10. CSS
+
 ## How to set it up?
 1. `git clone https://github.tamu.edu/sswt/justmovies.git`
 2. `cd path/to/project`
@@ -74,10 +77,16 @@ This work is done as a course project for Database Systems (TAMU CSCE 608). The 
 5. Now create a fresh database in postgres.
 6. Add its credentials to `utils/credentials.py`
 7. Run `data/data_load.py`. This will take around 2 minutes to complete. If everything goes well, you will have the complete database after it ends.
-8. Or, you can load data into postgres directly using the `data/dump.sql` pg_dump.
+8. Alternatively, you can load data into postgres directly using the `data/dump.sql` pg_dump.
 9. Migrate `python manage.py migrate`. Although the application logic uses postgres, Django uses sqlite here. I did not change this because in a course project, I want to keep these separate.
 10. Start up the server `python manage.py runserver`
 
+## Screenshots
+![Movies Listing](https://i.imgur.com/oH94zgo.png)
+![Individual Celebrity Page](https://i.imgur.com/y0Tq5Yq.png)
+![Data Page](https://i.imgur.com/xTF76jy.png)
+![Edit Movie Page](https://i.imgur.com/jpQjzjI.png)
+
 ## How to reach me if there's some issue?
 If you have access, create an issue in this repo.
-Or send me an email at sswt at tamu dot edu.
+Otherwise send me an email at sswt at tamu dot edu.
