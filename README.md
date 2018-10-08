@@ -64,7 +64,8 @@ This work is done as a course project for Database Systems (TAMU CSCE 608). The 
  6. charts.js
  7. d3.js
  8. venn.js
- 9. CSS
+ 9. Bootflat
+ 10. CSS
 ## How to set it up?
 1. `git clone https://github.tamu.edu/sswt/justmovies.git`
 2. `cd path/to/project`
