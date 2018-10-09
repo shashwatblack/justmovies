@@ -30,7 +30,7 @@ class MoviesView(View):
 
         pages = [
             i for i in range(1, movies["pagination"]["total_pages"] + 1)
-            if abs(movies["pagination"]["page_number"] - i) <= 2
+            if abs(movies["pagination"]["page_number"] - i) <= 4
         ]
 
         if len(pages):
@@ -214,7 +214,7 @@ class DataView(View):
         countDistByGenre = {
             "datasets": [{
                 "data": [g[1] for g in countDistByGenre] + [remainingGenres],
-                "backgroundColor": Enums.colors[:len(countDistByGenre)] + ["#888"]
+                "backgroundColor": Enums.colors[:len(countDistByGenre)] + [Enums.colors_others]
             }],
             "labels": [g[0] for g in countDistByGenre] + ["Others"]
         }
@@ -228,7 +228,7 @@ class DataView(View):
         countDistByCountry = {
             "datasets": [{
                 "data": [g[1] for g in countDistByCountry] + [remainingCountries],
-                "backgroundColor": Enums.colors[:len(countDistByCountry)] + ["#888"]
+                "backgroundColor": Enums.colors[:len(countDistByCountry)] + [Enums.colors_others]
             }],
             "labels": [g[0] for g in countDistByCountry] + ["Others"]
         }
@@ -242,7 +242,7 @@ class DataView(View):
         countDistByLanguage = {
             "datasets": [{
                 "data": [g[1] for g in countDistByLanguage] + [remainingLanguages],
-                "backgroundColor": Enums.colors[:len(countDistByLanguage)] + ["#888"]
+                "backgroundColor": Enums.colors[:len(countDistByLanguage)] + [Enums.colors_others]
             }],
             "labels": [g[0] for g in countDistByLanguage] + ["Others"]
         }
@@ -256,7 +256,7 @@ class DataView(View):
         budgetDistByGenre = {
             "datasets": [{
                 "data": [g[1] for g in budgetDistByGenre] + [remainingGenres],
-                "backgroundColor": Enums.colors[:len(budgetDistByGenre)] + ["#888"]
+                "backgroundColor": Enums.colors[:len(budgetDistByGenre)] + [Enums.colors_others]
             }],
             "labels": [g[0] for g in budgetDistByGenre] + ["Others"]
         }
@@ -270,7 +270,7 @@ class DataView(View):
         budgetDistByCountry = {
             "datasets": [{
                 "data": [g[1] for g in budgetDistByCountry] + [remainingCountries],
-                "backgroundColor": Enums.colors[:len(budgetDistByCountry)] + ["#888"]
+                "backgroundColor": Enums.colors[:len(budgetDistByCountry)] + [Enums.colors_others]
             }],
             "labels": [g[0] for g in budgetDistByCountry] + ["Others"]
         }
@@ -284,7 +284,7 @@ class DataView(View):
         budgetDistByLanguage = {
             "datasets": [{
                 "data": [g[1] for g in budgetDistByLanguage] + [remainingLanguages],
-                "backgroundColor": Enums.colors[:len(budgetDistByLanguage)] + ["#888"]
+                "backgroundColor": Enums.colors[:len(budgetDistByLanguage)] + [Enums.colors_others]
             }],
             "labels": [g[0] for g in budgetDistByLanguage] + ["Others"]
         }
