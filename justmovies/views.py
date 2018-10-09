@@ -290,7 +290,7 @@ class DataView(View):
         }
 
         # BUDGET DISTRIBUTION BY YEAR
-        cursor.execute("select year, sum(budget) from movie group by year order by year;")
+        cursor.execute("select year, avg(budget)::numeric::integer from movie group by year order by year;")
         budgetDistByYear = cursor.fetchall()
         budgetDistByYear = {
             "datasets": [{
@@ -299,6 +299,7 @@ class DataView(View):
             }],
             "labels": [g[0] for g in budgetDistByYear]
         }
+        print(budgetDistByYear)
 
         # ROLES DISTRIBUTION
         cursor.execute("SELECT count(person.pk), role FROM person JOIN personal_role ON person.pk = personal_role.person group by personal_role.role;")
